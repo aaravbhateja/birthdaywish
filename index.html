@@ -280,7 +280,11 @@
         </div>
     </div>
 
-    <audio id="birthdaySong" src="romantic-music.mp3"></audio>
+    <audio id="birthdaySong">
+    <source src="romantic-music.mp3" type="audio/mpeg">
+    <source src="romantic-music.ogg" type="audio/ogg">
+    Your browser does not support the audio element.
+</audio>
 
     <script>
         // Enhanced Interactive Elements
@@ -295,6 +299,37 @@
         audio.addEventListener('play', () => {
             document.body.style.background = 'linear-gradient(45deg, #ff1493, #ff6b6b)';
         });
+
+        <!-- In the JavaScript section, add this code after selecting the audio element -->
+
+    // Music Player with Play/Pause functionality
+    const playBtn = document.getElementById("playMusic");
+    let isPlaying = false;
+
+    playBtn.addEventListener("click", function() {
+        if (isPlaying) {
+            audio.pause();
+            playBtn.innerHTML = "🎵 Play Our Song 🎶";
+        } else {
+            audio.play()
+                .then(() => {
+                    playBtn.innerHTML = "⏸️ Pause Music ⏸️";
+                })
+                .catch(error => {
+                    console.log("Audio playback failed:", error);
+                    alert("Please interact with the page first! Click anywhere.");
+                });
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // Add this to handle audio pause when finished
+    audio.addEventListener('ended', () => {
+        isPlaying = false;
+        playBtn.innerHTML = "🎵 Play Our Song 🎶";
+    });
+
+
 
         // Balloon Animation with Physics
         document.getElementById("balloonBtn").addEventListener("click", function() {
